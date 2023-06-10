@@ -12,7 +12,7 @@ const Approuter =  () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Main/>}/>
-                <Route path="/Challenge" element={<Challenge/>}/>
+                <Route path="/Challenge/:id" element={<Challenge/>}/>
                 <Route path="/Masterwrite" element={<Masterwrite/>}/>
             </Routes>
         </BrowserRouter>

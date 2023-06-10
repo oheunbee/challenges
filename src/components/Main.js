@@ -1,10 +1,10 @@
 import { dbService, storageService} from "../firebase";
 import React, { useEffect, useState, useRef} from "react";
 import {collection,query, onSnapshot,orderBy } from "firebase/firestore";
-
+import { Link } from "react-router-dom";
 const Main =  () => {
     const [challenges, setChallenges] = useState();
-    
+    console.log(challenges,'c')
     useEffect(() => {
 
       const q = query(collection(dbService, 'challenges'), orderBy('createdAt', 'desc'))
@@ -25,7 +25,11 @@ const Main =  () => {
     <>
     <a href="/Masterwrite">작성</a>
      {
-        challenges&&challenges.map(value =><div key={value.title}>{value.title}</div>)
+        challenges&&challenges.map(value =>
+        <Link
+        to={`/Challenge/${value.id}`}  
+        key={value.id}>{value.title}
+        </Link>)
      }
      </>
     )
