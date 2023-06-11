@@ -6,7 +6,6 @@ const Main =  () => {
     const [challenges, setChallenges] = useState();
     console.log(challenges,'c')
     useEffect(() => {
-
       const q = query(collection(dbService, 'challenges'), orderBy('createdAt', 'desc'))
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const allChallenges = querySnapshot.docs.map((doc) => {
