@@ -28,6 +28,8 @@ function App() {
     <>
     {init ? <Approuter isLoggedIn={Boolean(userdata)} userdata={userdata}/> : "Initializing...."}
     </>
+
+    
   );
 }
 
