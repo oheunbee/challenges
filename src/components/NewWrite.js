@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { dbService, storageService } from "../firebase";
 import { getDownloadURL, ref, uploadString} from "@firebase/storage";
 import { addDoc, collection} from "firebase/firestore"
-const Masterwrite =  () => {
+const NewWrite =  () => {
 const navigate = useNavigate()
 const [content, setContent] = useState({
     title : '',
@@ -55,4 +55,4 @@ const handleChange = (id, value) => {
     )
 }
 
-export default Masterwrite;
+export default NewWrite;

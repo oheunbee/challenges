@@ -1,9 +1,10 @@
 import { useEffect,useState } from "react";
 import { dbService, storageService} from "../firebase";
-import {collection,limit,query,where, onSnapshot} from "firebase/firestore";
-import { useLocation } from "react-router";
+import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
+import { useLocation, useNavigate } from "react-router";
 
 const Challenge =  () => {
+    const navigate = useNavigate();
     const [content, setContent] = useState()
     const location = useLocation();
         const path = location.pathname.split('/')[2]
@@ -23,16 +24,33 @@ const Challenge =  () => {
                 unsubscribe()
               }
           }, []);
+
+           // 삭제 - D
+        const deleteUser = async(ids) =>{
+        // 내가 삭제하고자 하는 db의 컬렉션의 id를 뒤지면서 데이터를 찾는다
+        // const userDoc = doc(dbService, "challenges", id);
+        // // deleteDoc을 이용해서 삭제
+        // await deleteDoc(userDoc);
+        navigate("/");
+        }
+
     console.log(content,'content')
     return(
         <>
         {content ? 
-        <div>
-            <div>title : {content.title}</div>
-            <div>subtitle : {content.subtitle}</div>
-        </div>
-    :'loading....'    
-    }
+        <ul>
+            <li>챌린지 그룹명 : {content.title}</li>
+            <li>그룹원(명수) : {content.members}</li>
+            <li>챌린지 주차 : {content.challengeWeeks}</li>
+            <li>현재 주차 : </li>
+            <li>시작일 : {content.startDate}</li>
+            <li>종료일 : {content.endDate}</li>
+        </ul>
+        :'loading....'    
+        }
+        <button onClick={()=>{
+            deleteUser(content.id)
+        }}>삭제</button>
         </>
 
     )
