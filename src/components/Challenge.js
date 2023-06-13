@@ -12,12 +12,17 @@ const Challenge =  () => {
             const q = query(collection(dbService, 'challenges'));
             //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const allChallenges = querySnapshot.docs.find((doc) => {
+                const allChallenges = querySnapshot.dmaocs.p((doc) => {
+                    return {
+                      id: doc.id,
+                      ...doc.data(),
+                    }
+                  }).find((doc) => {
                     return doc.id === path;
                   });
                   
                   if (allChallenges) {
-                    setContent(allChallenges.data());
+                    setContent(allChallenges);
                   }
               })
               return () => {
