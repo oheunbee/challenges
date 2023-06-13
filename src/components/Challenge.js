@@ -26,11 +26,12 @@ const Challenge =  () => {
           }, []);
 
            // 삭제 - D
-        const deleteUser = async(ids) =>{
+        const deleteUser = async(id) =>{
         // 내가 삭제하고자 하는 db의 컬렉션의 id를 뒤지면서 데이터를 찾는다
-        // const userDoc = doc(dbService, "challenges", id);
-        // // deleteDoc을 이용해서 삭제
-        // await deleteDoc(userDoc);
+        const userDoc = doc(dbService, "challenges", id);
+        // deleteDoc을 이용해서 삭제
+        await deleteDoc(userDoc);
+        console.log(id)
         navigate("/");
         }
 
