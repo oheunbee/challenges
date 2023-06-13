@@ -33,8 +33,10 @@ const handleChange = (id, value) => {
 }
     return(
     <>
-  <input placeholder="title" onChange={value =>{handleChange('title',value)}}/>
-  <input placeholder="subtitle" onChange={value =>{handleChange('subtitle',value)}}/>
+  <input placeholder="title" onChange={value =>{handleChange('title',value)}}/> <br></br>
+  <input placeholder="subtitle" onChange={value =>{handleChange('subtitle',value)}}/> <br></br>
+  <input placeholder="members" type="number" min="1" onChange={value =>{handleChange('members',value)}}/> <br></br>
+  <input placeholder="startDate" type="date" onChange={value =>{handleChange('startDate',value)}}/>
   <button onClick={onSubmit}>저장</button>
      </>
     )

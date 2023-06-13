@@ -19,15 +19,17 @@ const Main =  () => {
     return () => {
         unsubscribe()
       }
-}, []);
+    }, []);
     return(
     <>
     <a href="/Masterwrite">작성</a>
+    <br></br>
      {
         challenges&&challenges.map(value =>
         <Link
         to={`/Challenge/${value.id}`}  
-        key={value.id}>{value.title}
+        key={value.id}>
+        <div> {value.title} </div> 
         </Link>)
      }
      </>
