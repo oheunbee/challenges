@@ -7,8 +7,12 @@ import Masterwrite from "./components/Masterwrite";
 import Join from "./components/Join";
 import Login from "./components/Login";
 import NewWrite from './components/NewWrite';
+
 const Approuter =  ({userdata, isLoggedIn}) => {
     
+  // context(state보관함)를 만들어주는 함수
+  
+
     return(
       <div className="contain">
         <BrowserRouter>
