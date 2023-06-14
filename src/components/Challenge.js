@@ -2,9 +2,10 @@ import { useEffect,useState } from "react";
 import { dbService, storageService} from "../firebase";
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
+import { NewWrite } from "./NewWrite"
 
 const Challenge =  () => {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
     const [content, setContent] = useState()
     const location = useLocation();
         const path = location.pathname.split('/')[2]
@@ -12,12 +13,17 @@ const Challenge =  () => {
             const q = query(collection(dbService, 'challenges'));
             //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const allChallenges = querySnapshot.docs.find((doc) => {
+                const allChallenges = querySnapshot.docs.map((doc) => {
+                    return {
+                        id : doc.id,
+                        ...doc.data(),
+                    }
+                  }).find((doc) => {
                     return doc.id === path;
                   });
                   
                   if (allChallenges) {
-                    setContent(allChallenges.data());
+                    setContent(allChallenges);
                   }
               })
               return () => {
@@ -52,6 +58,9 @@ const Challenge =  () => {
         <button onClick={()=>{
             deleteUser(content.id)
         }}>삭제</button>
+        <button onClick={()=>{
+            navigate("/NewWrite")
+        }}>수정</button>
         </>
 
     )

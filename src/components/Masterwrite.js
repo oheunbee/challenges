@@ -47,7 +47,7 @@ const handleChange = (id, value) => {
     <input placeholder="challengeWeeks" type="number" min="1" onChange={value =>{handleChange('challengeWeeks',value)}}/> <br></br>
     <span>시작일 : </span>
     <input placeholder="startDate" type="date" onChange={value =>{handleChange('startDate',value)}}/> <br></br>
-    <spna>종료일 : </spna>
+    <span>종료일 : </span>
     <input placeholder="endDate" type="date" onChange={value =>{handleChange('endDate',value)}}/> <br></br>
     
     <button onClick={onSubmit} >저장</button>
