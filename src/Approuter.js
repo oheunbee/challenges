@@ -19,7 +19,7 @@ const Approuter =  ({userdata, isLoggedIn}) => {
         <Header userdata={userdata}/>
             <Routes>
                 <Route path="/" element={<Main />}/>
-                <Route path="/NewWrite" element={<NewWrite />} />
+                <Route path="/NewWrite/:id" element={<NewWrite />} />
                 <Route path="/Challenge/:id" element={<Challenge />}/>
                 <Route path="/Masterwrite" element={<Masterwrite/>}/>
                 <Route path="/Join" element={<Join/>}/>

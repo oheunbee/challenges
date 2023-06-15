@@ -2,7 +2,7 @@ import { useEffect,useState } from "react";
 import { dbService, storageService} from "../firebase";
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
-import { NewWrite } from "./NewWrite"
+import { Link } from "react-router-dom"
 
 const Challenge =  () => {
     let navigate = useNavigate();
@@ -52,15 +52,17 @@ const Challenge =  () => {
             <li>현재 주차 : </li>
             <li>시작일 : {content.startDate}</li>
             <li>종료일 : {content.endDate}</li>
+            <button onClick={()=>{
+            deleteUser(content.id)
+            }}>삭제</button>
+            <Link 
+            to={`/NewWrite/${content.id}`}
+            >수정</Link>
+
         </ul>
         :'loading....'    
         }
-        <button onClick={()=>{
-            deleteUser(content.id)
-        }}>삭제</button>
-        <button onClick={()=>{
-            navigate("/NewWrite")
-        }}>수정</button>
+        
         </>
 
     )
