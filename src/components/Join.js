@@ -9,6 +9,7 @@ function Join(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [displayName, setDisplayName] =useState("");
     const onChange = (event) => {
         const {
             target: {name, value},
@@ -18,8 +19,18 @@ function Join(){
             setEmail(value);
         } else if (name === "password") {
             setPassword(value);
+        } else if (name === "displayName") {
+            setDisplayName(value);
+            console.log(displayName);
         }
     };
+
+    // const handleChange = (id, value) => {
+    //     setNickname(prevState => ({
+    //         ...prevState,
+    //         [id]: value.target.value
+    //     }));
+    //   };
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -27,12 +38,13 @@ function Join(){
                     authService,
                     email,
                     //displayName,
-                    password
+                    password,
+                    displayName,
                 );
                 const users = {
                     email : email,
-                    displayName : "",
-                    uid : ""
+                    displayName : displayName,
+                    uid : "",
                     };
                     addDoc(collection(dbService, "users"), users);
         navigate("/")
@@ -58,7 +70,16 @@ function Join(){
                 value={password}
                 onChange={onChange}
             />
-            <input type={"submit"} value="회원가입"/>
+            <input
+                name={"displayName"}
+                type={"displayName"}
+                placeholder={"displayName"}
+                required
+                value={displayName}
+                onChange={onChange}
+            />
+            <br></br>
+            <input type={"submit"} value="회원가입" />
         </form>
     </div>
     );

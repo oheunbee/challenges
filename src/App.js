@@ -7,7 +7,7 @@ import './style.css'
 
 function App() {
   const [init, setInit] = useState(false)
-   const [userdata, setUserdata] = useState()
+   const [userdata, setUserdata] = useState({});
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user){
