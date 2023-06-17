@@ -8,19 +8,20 @@ import { useNavigate } from "react-router-dom";
 import React, {useState} from 'react';
 
 function Login(){
+  
   const navigate = useNavigate();
- const [email, setEmail] = useState('')
-const [password, setPassword] = useState('')
-const onChange = (event) => {
-  const {
-    target: { name, value }
-  } = event
-  if (name === 'email') {
-    setEmail(value)
-  } else if (name === 'password') {
-    setPassword(value)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const onChange = (event) => {
+    const {
+      target: { name, value }
+    } = event
+    if (name === 'email') {
+      setEmail(value)
+    } else if (name === 'password') {
+      setPassword(value)
+    }
   }
-}
 
 const onSubmit = (event) => {
   event.preventDefault()
