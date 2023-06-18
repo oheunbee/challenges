@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { dbService, storageService } from "../firebase";
 import { getDownloadURL, ref, uploadString} from "@firebase/storage";
 import { addDoc, collection} from "firebase/firestore"
-const Masterwrite =  () => {
+const Masterwrite =  ({userdata}) => {
 const navigate = useNavigate()
 const [content, setContent] = useState({
     title : '',
@@ -34,6 +34,7 @@ const handleChange = (id, value) => {
         startDate : content.startDate,
         endDate : content.endDate,
         createdAt: Date.now(),
+
         };
         await addDoc(collection(dbService, "challenges"), writeObj);
         navigate("/")
