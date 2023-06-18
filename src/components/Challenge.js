@@ -58,7 +58,13 @@ const Challenge =  () => {
             <Link 
             to={`/NewWrite/${content.id}`}
             >수정</Link>
-
+            <br></br>
+            <br></br>
+            <Link to={`/ChallDetail/${content.id}`} > 
+            <div>
+            참여하기
+            </div>
+            </Link>
         </ul>
         :'loading....'    
         }

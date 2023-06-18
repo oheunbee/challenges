@@ -16,7 +16,7 @@ function Header({userdata}) {
       console.log('로그아웃 에러:', error);
     });
   };
-  
+  console.log(userdata);
   useEffect(()=> {
     const nick = query(collection(dbService,'users'));
     const userData = onSnapshot(nick, (querySnapshot) => {
