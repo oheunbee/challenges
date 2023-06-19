@@ -8,6 +8,7 @@ import Join from "./components/Join";
 import Login from "./components/Login";
 import NewWrite from './components/NewWrite';
 import ChallDetail from './components/ChallDetail';
+import Mychallenges from "./components/Mychallenges";
 
 const Approuter =  ({userdata, isLoggedIn}) => {
     
@@ -22,10 +23,11 @@ const Approuter =  ({userdata, isLoggedIn}) => {
                 <Route path="/" element={<Main />}/>
                 <Route path="/NewWrite/:id" element={<NewWrite />} />
                 <Route path="/Challenge/:id" element={<Challenge />}/>
-                <Route path="/ChallDetail/:id" element={<ChallDetail />}/>
+                <Route path="/ChallDetail/:id" element={<ChallDetail userdata={userdata} />}/>
                 <Route path="/Masterwrite" element={<Masterwrite/>}/>
                 <Route path="/Join" element={<Join/>}/>
                 <Route path="/Login" element={<Login/>}/>
+                <Route path="/Mychallenges" element={<Mychallenges userdata={userdata}/>}/>
             </Routes>
         </BrowserRouter>
       </div>
