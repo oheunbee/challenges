@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 function Header({userdata}) {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(false);
   const logout = () => {
     logouts()
     navigate("/");
@@ -48,12 +48,12 @@ function Header({userdata}) {
   <div className="divbox">
     <div  className='menubtn' onClick={e=>setMenu(!menu)}>메뉴</div>
     {menu?
-    <ul className='menu'>
-      <li>
+    <ul className='menu' >
+      <li onClick={e=>setMenu(!menu)}>
         <Link to={'/Mychallenges'}>내가참여한챌린지</Link>
       </li>
-      <li>
-        <Link>내정보변경</Link>
+      <li onClick={e=>setMenu(!menu)}>
+        <Link to={'/MyProfile'}>내정보변경</Link>
       </li>
     </ul>
     :''
