@@ -3,48 +3,34 @@ import { dbService, storageService} from "../firebase";
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
-import { connectAuthEmulator } from "firebase/auth";
 
-const Mychallenges =  ({userdata}) => {
+const JoinChallenge =  () => {
     let navigate = useNavigate();
     const [content, setContent] = useState()
-    const [array, setArray] = useState([]);
-    function findChall(item, index, arr) {
-        const q = query(collection(dbService, 'challenges'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const allChallenges = querySnapshot.docs
-            .map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }))
-            .find((doc) => doc.id === item.challenge);
-      
-          if (allChallenges) {
-            setArray((prevArray) => [...prevArray, allChallenges]);
-          }
-        });
-      
-        return () => {
-          unsubscribe();
-        };
-      }
-
+    const location = useLocation();
+        const path = location.pathname.split('/')[2]
         useEffect(() => {
-            const q = query(collection(dbService, 'challengejoin'));
+            const q = query(collection(dbService, 'challenges'));
+            //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const allChallenges = querySnapshot.docs.map((doc) => {
                     return {
                         id : doc.id,
                         ...doc.data(),
                     }
-                  }).filter(value=>value.userId===userdata.uid).forEach(findChall)
+                  }).find((doc) => {
+                    return doc.id === path;
+                  });
+                  
+                  if (allChallenges) {
+                    setContent(allChallenges);
+                  }
               })
               return () => {
                 unsubscribe()
               }
           }, []);
 
-          console.log(array,'ar')
            // 삭제 - D
         const deleteUser = async(id) =>{
         // 내가 삭제하고자 하는 db의 컬렉션의 id를 뒤지면서 데이터를 찾는다
@@ -58,14 +44,17 @@ const Mychallenges =  ({userdata}) => {
     console.log(content,'content')
     return(
         <>
-      {array&&array.map(value=>
-        <div key={value.id}>
-            <Link to={`/JoinChallenge/${value.id}`}>{value.title}</Link>
-        </div>)}
-            </>
+        {content ? 
+        <ul>
+            <li>JoinChallenge 페이지가 맞나요</li>
+        </ul>
+        :'loading....'    
+        }
+        
+        </>
 
     )
 }
 
 
-export default Mychallenges;
+export default JoinChallenge;
