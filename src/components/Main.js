@@ -2,6 +2,8 @@ import { dbService, storageService} from "../firebase";
 import React, { useEffect, useState, useRef} from "react";
 import {collection,query, onSnapshot,orderBy } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import { calculateNewValue } from "@testing-library/user-event/dist/utils";
+import { calculateWeeksAhead } from "../service/getservice";
 const Main =  () => {
     const [challenges, setChallenges] = useState();
     const [date, setDate] = useState([]);
@@ -44,7 +46,7 @@ const Main =  () => {
                 <li>챌린지 그룹명 : {value.subtitle}</li>
                 <li>그룹원(명수) : {value.members}</li>
                 <li>챌린지 총 주차 : {value.challengeWeeks}</li>
-                <li>현재 주차 :  </li>
+                <li>현재 주차 :  {calculateWeeksAhead(value.startDate)}</li>
                 <li>시작일 : {value.startDate}</li>
                 <li>종료일 : {value.endDate}</li>
               </ul>

@@ -1,3 +1,12 @@
 .divbox{
     display: flex;
 }
+.menubtn{
+    cursor: pointer;
+}
+.menu{
+    position: absolute;
+    background-color: lightblue;
+    top: 20px;
+    padding: 10px;
+}
