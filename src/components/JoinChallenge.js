@@ -4,50 +4,68 @@ import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
 
-const JoinChallenge =  () => {
+const JoinChallenge =  ({userdata}) => {
     let navigate = useNavigate();
-    const [content, setContent] = useState()
+    const [content, setContent] = useState({});
     const location = useLocation();
-        const path = location.pathname.split('/')[2]
-        useEffect(() => {
-            const q = query(collection(dbService, 'challenges'));
-            //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const allChallenges = querySnapshot.docs.map((doc) => {
-                    return {
-                        id : doc.id,
-                        ...doc.data(),
-                    }
-                  }).find((doc) => {
-                    return doc.id === path;
-                  });
-                  
-                  if (allChallenges) {
-                    setContent(allChallenges);
-                  }
-              })
-              return () => {
-                unsubscribe()
-              }
-          }, []);
-
-           // 삭제 - D
-        const deleteUser = async(id) =>{
-        // 내가 삭제하고자 하는 db의 컬렉션의 id를 뒤지면서 데이터를 찾는다
-        const userDoc = doc(dbService, "challenges", id);
-        // deleteDoc을 이용해서 삭제
-        await deleteDoc(userDoc);
-        console.log(id)
-        navigate("/");
-        }
+    const path = location.pathname.split('/')[2]
+    useEffect(() => {
+        const q = query(collection(dbService, 'challenges'));
+        //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const allChallenges = querySnapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data(),
+                }
+                }).find((doc) => {
+                return doc.id === path;
+                });
+                
+                if (allChallenges) {
+                setContent(allChallenges);
+                }
+            })
+            return () => {
+            unsubscribe()
+            }
+    }, []);
 
     console.log(content,'content')
+    console.log(userdata);
+
     return(
         <>
-        {content ? 
-        <ul>
-            <li>JoinChallenge 페이지가 맞나요</li>
-        </ul>
+        {content.id===path ? 
+        <section>
+            <div>
+                <div>{content.title}</div>
+                <div>참가인원 : {content.members} 명</div>
+            </div>
+
+            <div>
+                <span>시작일: {content.startDate}</span>
+                <span>종료일: {content.endDate}</span>
+            </div>
+
+            {/* ul이 한세트인데 이게 n주차만큼 자동생성되도록 만들어야 함 */}
+            <ul>
+                <li>
+                    <div>
+                        <div>0주</div>
+                        <div>주제</div>
+                        <div>총 00%</div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div>{userdata.displayName}</div>
+                            <div>해야 할 분량 이름</div>
+                            <div>00%</div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
         :'loading....'    
         }
         
