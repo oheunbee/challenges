@@ -3,6 +3,7 @@ import { dbService, storageService} from "../firebase";
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
+import { calculateWeeksAhead } from "../service/getservice";
 
 const Challenge =  ({userdata}) => {
     let navigate = useNavigate();
@@ -68,7 +69,6 @@ const Challenge =  ({userdata}) => {
     navigate("/");
     }
 
-    console.log(content,'content')
     return(
         <>
         {content ? 
@@ -76,17 +76,23 @@ const Challenge =  ({userdata}) => {
             <li>챌린지 그룹명 : {content.title}</li>
             <li>그룹원(명수) : {content.members}</li>
             <li>챌린지 주차 : {content.challengeWeeks}</li>
-            <li>현재 주차 : </li>
+            <li>현재 주차 : {calculateWeeksAhead(content.startDate)} </li>
             <li>시작일 : {content.startDate}</li>
             <li>종료일 : {content.endDate}</li>
             <button onClick={()=>{
             deleteUser(content.id)
             }}>삭제</button>
-            <Link 
-            to={`/NewWrite/${content.id}`}
-            >수정</Link>
+            <Link to={`/NewWrite/${content.id}`}>수정</Link>
             <br></br>
             <br></br>
+<<<<<<< HEAD
+            <div>
+            <Link to={`/ChallDetail/${content.id}`} > 
+            참여하기
+            </Link>
+            </div>
+=======
+>>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
         </ul>
         :'loading....'    
         }
