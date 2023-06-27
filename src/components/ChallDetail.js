@@ -41,13 +41,8 @@ const joinChallenge= async (event)=> {
       createdAt: Date.now(),
       };
       await addDoc(collection(dbService, "challengejoin"), joinObj);
-<<<<<<< HEAD
-      navigate("/")
-      alert('신청되었습니다')
-=======
       alert('신청되었습니다')
       navigate('./JoinChallenge')
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
 }
 
         console.log(content)
