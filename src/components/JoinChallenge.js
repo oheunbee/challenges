@@ -65,6 +65,8 @@ const JoinChallenge =  ({userdata}) => {
                     </ul>
                 </li>
             </ul>
+            {/* 요기까지가 한 세트, 주차 자동과 퍼센트 자동, userdata.displayName이 아니라 
+            참여인원 명단대로 속 Ul의 li이가 자동생성 되어야 함 */}
         </section>
         :'loading....'    
         }

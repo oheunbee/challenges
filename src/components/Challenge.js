@@ -54,8 +54,6 @@ const Challenge =  ({userdata}) => {
     }, []);
   
       console.log(array, '어레이');
-      const matchingItem = array.map(item => item.challenge === path);
-      console.log(matchingItem, '매칭확인');
 
 
     // 삭제 - D
@@ -91,13 +89,13 @@ const Challenge =  ({userdata}) => {
         :'loading....'    
         }
 
-        {array&&array.map(item => item.challenge === path) ? 
+        {array.find(item => item.challenge === path)&&array ? 
         <Link to={`/JoinChallenge/${content.id}`} > 
         <div>"{content.title}" 챌린지 상세페이지로 이동</div>
         </Link> : 
         <Link to={`/ChallDetail/${content.id}`} > 
         <div>자세히 알아보기</div>
-        </Link>}
+        </Link> }
 
         </>
 
