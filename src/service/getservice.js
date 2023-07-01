@@ -50,7 +50,7 @@ export const getAllJoinChallenge = (title,seconfunc)=>{
       unsubscribe()
     }
 }
-export const getChallenge = (db,paths,func,length,seconfunc)=>{
+export const getChallenge = (db,paths,func,length,seconfunc,sec)=>{
   const q = query(collection(dbService, db));
   //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -65,9 +65,12 @@ export const getChallenge = (db,paths,func,length,seconfunc)=>{
           
           if (allChallenges) {
             func(allChallenges);
-            if(length=true){
+            if(length==true){
               getAllJoinChallenge(allChallenges.id,seconfunc);
+            }else if(sec==true){
+              seconfunc(allChallenges)
             }
+           
           }
       })
       return () => {

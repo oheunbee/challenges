@@ -12,7 +12,7 @@ const JoinChallenge =  ({userdata}) => {
     const [num, setNum]=useState()
     const [cmembers,setcMemgers]=useState()
     const path = location.pathname.split('/')[2]
-console.log(cmembers,'cmem')
+console.log(userdata,'userdata')
     useEffect(() => {
             getChallenge('challenges',path,setContent,true,setcMemgers)
           
@@ -27,7 +27,7 @@ console.log(cmembers,'cmem')
     const renderListItems = (weeks) => {
         const listItems = [];
         for (let i = 0; i < weeks; i++) {
-          const listInItems = renderMemberdiv(challengemember); // listInItems 변수 선언 및 초기화
+          const listInItems = renderMemberdiv(cmembers,i); // listInItems 변수 선언 및 초기화
           listItems.push(
             <li onClick={()=>onClick(i)} key={i}>
               <div>
@@ -42,22 +42,25 @@ console.log(cmembers,'cmem')
         return listItems;
       };
       
-      const renderMemberdiv = (members) => {
-        const listInItems = [];
-        for (let i = 0; i < members; i++) {
-          listInItems.push(
-            <div>
-              <div>나</div>
-              <div>진행하기로 한거</div>
-              <div>한분량</div>
-            </div>
-          );
-        }
-        return listInItems;
+      const renderMemberdiv = (members,i) => {
+        return(
+            <>
+            {members&&members.map(value=>
+                <div>
+                <div>{value.userId}</div>
+                <div>진행하기로 한거</div>
+                <div>실행내용</div>
+                <div>해낸분량</div>
+                {i == nowWeeks(content.startDate)-1 &&userdata.uid==value.userId?
+                <Link>작성</Link>
+                :''
+            }
+              </div>)}
+            </>
+        )
       };
       
       const challengeWeeks = parseInt(content.challengeWeeks);
-      const challengemember = parseInt(content.members);
       const listItems = renderListItems(challengeWeeks);
       
     return(
