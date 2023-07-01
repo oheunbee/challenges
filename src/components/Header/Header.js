@@ -15,7 +15,6 @@ function Header({userdata}) {
     navigate("/");
     alert('로그아웃 되었습니다');
   };
-  console.log(userdata);
   useEffect(()=> {
     const nick = query(collection(dbService,'users'));
     const userData = onSnapshot(nick, (querySnapshot) => {

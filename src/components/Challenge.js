@@ -8,9 +8,9 @@ import { calculateWeeksAhead } from "../service/getservice";
 const Challenge =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState({});
+    const [array, setArray]=useState([])
     const location = useLocation();
     const path = location.pathname.split('/')[2]
-    const [array, setArray]=useState([])
     useEffect(() => {
         const q1 = query(collection(dbService, 'challenges'));
         const q2 = query(collection(dbService, 'challengejoin'));
