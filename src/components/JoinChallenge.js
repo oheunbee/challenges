@@ -2,21 +2,26 @@ import { useEffect,useState } from "react";
 import { dbService, storageService} from "../firebase";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
-import { nowWeeks,getChallenge,getAllJoinChallenge } from "../service/getservice";
+import { nowWeeks,getChallenge,getWeekChallenge } from "../service/getservice";
 
 const JoinChallenge =  ({userdata}) => {
     let navigate = useNavigate();
     // 현재 페이지에 대한 정보 
-    const [content, setContent] = useState({});
+    const [content, setContent] = useState([]);
+    const [weekcontent, setWeekContent] = useState([]);
     const location = useLocation();
     const [num, setNum]=useState()
     const [cmembers,setcMemgers]=useState()
     const path = location.pathname.split('/')[2]
-console.log(userdata,'userdata')
+    const weekdata =(week,uid)=>{
+        const weeks = weekcontent&&weekcontent.filter(value => value.week === week && value.userId === uid)[0]
+        return weeks
+    } 
     useEffect(() => {
-            getChallenge('challenges',path,setContent,true,setcMemgers)
+            getChallenge('challenges',path,setContent,true,setcMemgers,'',setWeekContent)
           
     }, []);
+    console.log(weekcontent,'weekcon')
     const onClick=(i)=>{
         if(num==i){
             setNum(null)
@@ -42,22 +47,41 @@ console.log(userdata,'userdata')
         return listItems;
       };
       
-      const renderMemberdiv = (members,i) => {
-        return(
-            <>
-            {members&&members.map(value=>
-                <div>
-                <div>{value.userId}</div>
-                <div>진행하기로 한거</div>
-                <div>실행내용</div>
-                <div>해낸분량</div>
-                {i == nowWeeks(content.startDate)-1 &&userdata.uid==value.userId?
-                <Link>작성</Link>
-                :''
-            }
-              </div>)}
-            </>
-        )
+      const renderMemberdiv = (members, i) => {
+        return (
+          <>
+            {members &&
+              members.map((value) => {
+                const weekdatas = weekdata(i + 1, value.userId);
+                console.log(weekdatas,'????weekdata')
+                return (
+                  <div key={value.userId}>
+                    <div>{value.userId}</div>
+                    <div>진행하기로 한거</div>
+                    <div>실행내용: {weekdatas && weekdatas.content}</div>
+                    <div>만족도 : </div>
+                    {i === nowWeeks(content.startDate) - 1 && userdata.uid === value.userId && (
+                      <div>
+                        {!weekdatas && weekdatas === undefined ?
+                          <Link
+                            to={
+                                '/Writeweekchallenge'
+                            }
+                              state= {{
+                                challenge: content.id,
+                                week: nowWeeks(content.startDate),
+                              }}
+                          >
+                            작성
+                          </Link>
+                         :  <Link>수정</Link>}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </>
+        );
       };
       
       const challengeWeeks = parseInt(content.challengeWeeks);
