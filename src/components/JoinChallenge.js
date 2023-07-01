@@ -1,71 +1,72 @@
 import { useEffect,useState } from "react";
 import { dbService, storageService} from "../firebase";
-import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
-import { nowWeeks } from "../service/getservice";
+import { nowWeeks,getChallenge,getAllJoinChallenge } from "../service/getservice";
 
 const JoinChallenge =  ({userdata}) => {
     let navigate = useNavigate();
+    // 현재 페이지에 대한 정보 
     const [content, setContent] = useState({});
     const location = useLocation();
+    const [num, setNum]=useState()
+    const [cmembers,setcMemgers]=useState()
     const path = location.pathname.split('/')[2]
+console.log(cmembers,'cmem')
     useEffect(() => {
-        const q = query(collection(dbService, 'challenges'));
-        //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const allChallenges = querySnapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-                }).find((doc) => {
-                return doc.id === path;
-                });
-                
-                if (allChallenges) {
-                setContent(allChallenges);
-                }
-            })
-            return () => {
-            unsubscribe()
-            }
+            getChallenge('challenges',path,setContent,true,setcMemgers)
+          
     }, []);
-
-    
-const renderListItems = (weeks) => {
-    const listItems = [];
-    for (let i = 0; i < weeks; i++) {
-      listItems.push(
-        <li key={i}>
-          <div>
-            <div>{i + 1}주</div>
-            <div>주제</div>
-            <div>총 00%</div>
-          </div>
-          <ul>
-            <li>
-              <div>{userdata.displayName}</div>
-              <div>해야 할 분량 이름</div>
-              <div>00%</div>
+    const onClick=(i)=>{
+        if(num==i){
+            setNum(null)
+        }else{
+        setNum(i)
+        }
+      }
+    const renderListItems = (weeks) => {
+        const listItems = [];
+        for (let i = 0; i < weeks; i++) {
+          const listInItems = renderMemberdiv(challengemember); // listInItems 변수 선언 및 초기화
+          listItems.push(
+            <li onClick={()=>onClick(i)} key={i}>
+              <div>
+                <div>{i + 1}주</div>
+                <div>주제</div>
+                <div>총 00%</div>
+              </div>
+              {num === i ? listInItems : null} 
             </li>
-          </ul>
-        </li>
-      );
-    }
-    return listItems;
-  };
-  const challengeWeeks = parseInt(content.challengeWeeks);
-const listItems = renderListItems(challengeWeeks);
-
-
+          );
+        }
+        return listItems;
+      };
+      
+      const renderMemberdiv = (members) => {
+        const listInItems = [];
+        for (let i = 0; i < members; i++) {
+          listInItems.push(
+            <div>
+              <div>나</div>
+              <div>진행하기로 한거</div>
+              <div>한분량</div>
+            </div>
+          );
+        }
+        return listInItems;
+      };
+      
+      const challengeWeeks = parseInt(content.challengeWeeks);
+      const challengemember = parseInt(content.members);
+      const listItems = renderListItems(challengeWeeks);
+      
     return(
         <>
         {content.id===path ? 
         <section>
             <div>
                 <div>{content.title}</div>
-                <div>참가인원 : {content.members} 명</div>
+                <div>참가인원 : {cmembers&&cmembers.length} 명</div>
             </div>
 
             <div>
@@ -75,7 +76,7 @@ const listItems = renderListItems(challengeWeeks);
             <div>현재주차 :  <div>{nowWeeks(content.startDate)}주</div></div>
 
             {/* ul이 한세트인데 이게 n주차만큼 자동생성되도록 만들어야 함 */}
-            <ul>
+            <ul >
             {listItems}
             </ul>
             {/* 요기까지가 한 세트, 주차 자동과 퍼센트 자동, userdata.displayName이 아니라 
