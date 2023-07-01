@@ -12,42 +12,6 @@ const Challenge =  ({userdata}) => {
     const path = location.pathname.split('/')[2]
     const [array, setArray]=useState([])
     useEffect(() => {
-<<<<<<< HEAD
-        const q = query(collection(dbService, 'challenges'));
-        //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const allChallenges = querySnapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-                }).find((doc) => {
-                return doc.id === path;
-                });
-                
-                if (allChallenges) {
-                setContent(allChallenges);
-                }
-            })
-            return () => {
-            unsubscribe()
-            }
-        
-    }, []);
-
-
-    const [array, setArray] = useState([]);
-    useEffect(() => {
-        const q = query(collection(dbService, 'challengejoin'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const allChallenges = querySnapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-              }).filter(value=>value.userId===userdata.uid)
-
-=======
         const q1 = query(collection(dbService, 'challenges'));
         const q2 = query(collection(dbService, 'challengejoin'));
       
@@ -74,7 +38,6 @@ const Challenge =  ({userdata}) => {
             };
           }).filter((value) => value.userId === userdata.uid);
       
->>>>>>> origin/cute
           if (allChallenges) {
             setArray(allChallenges);
           }
@@ -100,16 +63,7 @@ const Challenge =  ({userdata}) => {
     }
 
     // 로그인 안 되어있다면 메인으로 이동
-<<<<<<< HEAD
-    const isLogin = () => {
-        if(userdata == null) {
-            alert('로그인을 해주세요');
-            navigate('./');
-        }
-    };
-=======
  
->>>>>>> origin/cute
 
     return(
         <>
@@ -137,11 +91,7 @@ const Challenge =  ({userdata}) => {
         </Link> 
         : 
         <Link to={`/ChallDetail/${content.id}`} > 
-<<<<<<< HEAD
-        <div onClick={isLogin}>자세히 알아보기</div>
-=======
         <div >자세히 알아보기</div>
->>>>>>> origin/cute
         </Link> }
 
         </>
