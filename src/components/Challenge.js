@@ -10,7 +10,9 @@ const Challenge =  ({userdata}) => {
     const [content, setContent] = useState({});
     const location = useLocation();
     const path = location.pathname.split('/')[2]
+    const [array, setArray]=useState([])
     useEffect(() => {
+<<<<<<< HEAD
         const q = query(collection(dbService, 'challenges'));
         //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -45,17 +47,46 @@ const Challenge =  ({userdata}) => {
                 }
               }).filter(value=>value.userId===userdata.uid)
 
+=======
+        const q1 = query(collection(dbService, 'challenges'));
+        const q2 = query(collection(dbService, 'challengejoin'));
+      
+        const unsubscribe1 = onSnapshot(q1, (querySnapshot) => {
+          const allChallenges = querySnapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          }).find((doc) => {
+            return doc.id === path;
+          });
+      
+          if (allChallenges) {
+            setContent(allChallenges);
+          }
+        });
+      
+        const unsubscribe2 = onSnapshot(q2, (querySnapshot) => {
+          const allChallenges = querySnapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          }).filter((value) => value.userId === userdata.uid);
+      
+>>>>>>> origin/cute
           if (allChallenges) {
             setArray(allChallenges);
           }
         });
       
         return () => {
-          unsubscribe();
+          unsubscribe1();
+          unsubscribe2();
         };
-    }, []);
-  
+      }, []);
       console.log(array, '어레이');
+      console.log(content, 'content');
 
 
     // 삭제 - D
@@ -69,12 +100,16 @@ const Challenge =  ({userdata}) => {
     }
 
     // 로그인 안 되어있다면 메인으로 이동
+<<<<<<< HEAD
     const isLogin = () => {
         if(userdata == null) {
             alert('로그인을 해주세요');
             navigate('./');
         }
     };
+=======
+ 
+>>>>>>> origin/cute
 
     return(
         <>
@@ -99,9 +134,14 @@ const Challenge =  ({userdata}) => {
         {array.find(item => item.challenge === path)&&array ? 
         <Link to={`/JoinChallenge/${content.id}`} > 
         <div>"{content.title}" 챌린지 상세페이지로 이동</div>
-        </Link> : 
+        </Link> 
+        : 
         <Link to={`/ChallDetail/${content.id}`} > 
+<<<<<<< HEAD
         <div onClick={isLogin}>자세히 알아보기</div>
+=======
+        <div >자세히 알아보기</div>
+>>>>>>> origin/cute
         </Link> }
 
         </>
