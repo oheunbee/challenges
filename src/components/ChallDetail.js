@@ -8,10 +8,15 @@ import { addDoc} from "firebase/firestore"
 const ChallDetail =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState({});
+    console.log(userdata,'???')
     const [joins, setJoins] = useState([]);
     const location = useLocation();
         const path = location.pathname.split('/')[2]
         useEffect(() => {
+          if(!userdata) {
+            alert('로그인을 해주세요');
+            navigate('/login');
+        }
           const q = query(collection(dbService, 'challenges'));
           //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
           const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -31,6 +36,7 @@ const ChallDetail =  ({userdata}) => {
             return () => {
               unsubscribe()
             }
+           
         }, []);
 
       
