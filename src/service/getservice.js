@@ -1,5 +1,7 @@
 
 import { authService, dbService } from "../firebase";
+
+import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 export const logouts = ()=>{
     authService.signOut()
 }
@@ -27,4 +29,51 @@ const timeDiff = today.getTime() - referenceDate.getTime();
 // 차이를 주 단위로 변환
 const weeksPassed = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
 return weeksPassed+1;
+}
+
+export const getAllJoinChallenge = (title,seconfunc)=>{
+  console.log(title,'title')
+  const q = query(collection(dbService, 'challengejoin'));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const allChallenges = querySnapshot.docs.map((doc) => {
+          return {
+              id : doc.id,
+              ...doc.data(),
+          }
+        }).filter(value=>value.challenge===title)
+        if (allChallenges) {
+         seconfunc(allChallenges)
+        }
+    })
+   
+    return () => {
+      unsubscribe()
+    }
+}
+export const getChallenge = (db,paths,func,length,seconfunc,sec)=>{
+  const q = query(collection(dbService, db));
+  //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const allChallenges = querySnapshot.docs.map((doc) => {
+          return {
+              id : doc.id,
+              ...doc.data(),
+          }
+          }).find((doc) => {
+          return doc.id === paths;
+          });
+          
+          if (allChallenges) {
+            func(allChallenges);
+            if(length==true){
+              getAllJoinChallenge(allChallenges.id,seconfunc);
+            }else if(sec==true){
+              seconfunc(allChallenges)
+            }
+           
+          }
+      })
+      return () => {
+      unsubscribe()
+      }
 }

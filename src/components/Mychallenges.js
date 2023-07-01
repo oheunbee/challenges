@@ -8,6 +8,7 @@ import { connectAuthEmulator } from "firebase/auth";
 const Mychallenges =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState()
+    console.log(content,'content')
     const [array, setArray] = useState([]);
     function findChall(item, index, arr) {
         const q = query(collection(dbService, 'challenges'));
@@ -54,7 +55,6 @@ const Mychallenges =  ({userdata}) => {
         navigate("/");
         }
 
-    console.log(content,'content')
     return(
         <>
       {array&&array.map(value=>
