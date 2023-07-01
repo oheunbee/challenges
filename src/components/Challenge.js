@@ -30,6 +30,7 @@ const Challenge =  ({userdata}) => {
             return () => {
             unsubscribe()
             }
+        
     }, []);
 
 
@@ -67,6 +68,14 @@ const Challenge =  ({userdata}) => {
     navigate("/");
     }
 
+    // 로그인 안 되어있다면 메인으로 이동
+    const isLogin = () => {
+        if(userdata == null) {
+            alert('로그인을 해주세요');
+            navigate('./');
+        }
+    };
+
     return(
         <>
         {content ? 
@@ -92,7 +101,7 @@ const Challenge =  ({userdata}) => {
         <div>"{content.title}" 챌린지 상세페이지로 이동</div>
         </Link> : 
         <Link to={`/ChallDetail/${content.id}`} > 
-        <div>자세히 알아보기</div>
+        <div onClick={isLogin}>자세히 알아보기</div>
         </Link> }
 
         </>
