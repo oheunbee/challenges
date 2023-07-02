@@ -4,33 +4,22 @@ import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
 import { addDoc} from "firebase/firestore"
+import { getChallenge } from "../service/getservice";
 
 const ChallDetail =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState({});
+    console.log(userdata,'???')
     const [joins, setJoins] = useState([]);
     const location = useLocation();
         const path = location.pathname.split('/')[2]
         useEffect(() => {
-          const q = query(collection(dbService, 'challenges'));
-          //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
-          const unsubscribe = onSnapshot(q, (querySnapshot) => {
-              const allChallenges = querySnapshot.docs.map((doc) => {
-                  return {
-                      id : doc.id,
-                      ...doc.data(),
-                  }
-                }).find((doc) => {
-                  return doc.id === path;
-                });
-                
-                if (allChallenges) {
-                  setContent(allChallenges);
-                }
-            })
-            return () => {
-              unsubscribe()
-            }
+          if(!userdata) {
+            alert('로그인을 해주세요');
+            navigate('/login');
+        }
+        getChallenge('challenges',path, setContent)
+           
         }, []);
 
       
@@ -41,13 +30,8 @@ const joinChallenge= async (event)=> {
       createdAt: Date.now(),
       };
       await addDoc(collection(dbService, "challengejoin"), joinObj);
-<<<<<<< HEAD
-      navigate("/")
-      alert('신청되었습니다')
-=======
       alert('신청되었습니다')
       navigate('./JoinChallenge')
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
 }
 
         console.log(content)

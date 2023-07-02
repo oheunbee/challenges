@@ -8,6 +8,7 @@ import { connectAuthEmulator } from "firebase/auth";
 const Mychallenges =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState()
+    console.log(content,'content')
     const [array, setArray] = useState([]);
     function findChall(item, index, arr) {
         const q = query(collection(dbService, 'challenges'));
@@ -28,10 +29,6 @@ const Mychallenges =  ({userdata}) => {
           unsubscribe();
         };
       }
-<<<<<<< HEAD
-=======
-
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
         useEffect(() => {
             const q = query(collection(dbService, 'challengejoin'));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -58,16 +55,11 @@ const Mychallenges =  ({userdata}) => {
         navigate("/");
         }
 
-    console.log(content,'content')
     return(
         <>
       {array&&array.map(value=>
         <div key={value.id}>
-<<<<<<< HEAD
-            {value.title}
-=======
             <Link to={`/JoinChallenge/${value.id}`}>{value.title}</Link>
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
         </div>)}
             </>
 

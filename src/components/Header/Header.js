@@ -9,17 +9,12 @@ import { Link } from 'react-router-dom';
 function Header({userdata}) {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-<<<<<<< HEAD
-  const [menu, setMenu] = useState(false)
-=======
   const [menu, setMenu] = useState(false);
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
   const logout = () => {
     logouts()
     navigate("/");
     alert('로그아웃 되었습니다');
   };
-  console.log(userdata);
   useEffect(()=> {
     const nick = query(collection(dbService,'users'));
     const userData = onSnapshot(nick, (querySnapshot) => {
@@ -52,21 +47,12 @@ function Header({userdata}) {
   <div className="divbox">
     <div  className='menubtn' onClick={e=>setMenu(!menu)}>메뉴</div>
     {menu?
-<<<<<<< HEAD
-    <ul className='menu'>
-      <li>
-        <Link to={'/Mychallenges'}>내가참여한챌린지</Link>
-      </li>
-      <li>
-        <Link>내정보변경</Link>
-=======
     <ul className='menu' >
       <li onClick={e=>setMenu(!menu)}>
         <Link to={'/Mychallenges'}>내가참여한챌린지</Link>
       </li>
       <li onClick={e=>setMenu(!menu)}>
         <Link to={'/MyProfile'}>내정보변경</Link>
->>>>>>> 2d22e4db744b93bb1b3c0d583ee20d1634ef29e2
       </li>
     </ul>
     :''
