@@ -11,6 +11,7 @@ import ChallDetail from './components/ChallDetail';
 import Mychallenges from "./components/Mychallenges";
 import MyProfile from "./components/MyProfile";
 import JoinChallenge from "./components/JoinChallenge";
+import Writeweekchallenge from "./components/Writeweekchallenge";
 
 const Approuter =  ({userdata, isLoggedIn}) => {
     
@@ -32,6 +33,7 @@ const Approuter =  ({userdata, isLoggedIn}) => {
                 <Route path="/Mychallenges" element={<Mychallenges userdata={userdata}/>}/>
                 <Route path="/MyProfile" element={<MyProfile userdata={userdata}/>}/>
                 <Route path="/JoinChallenge/:id" element={<JoinChallenge userdata={userdata}/>}/>
+                <Route path="/Writeweekchallenge" element={<Writeweekchallenge userdata={userdata}/>}/>
             </Routes>
         </BrowserRouter>
       </div>
