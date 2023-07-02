@@ -50,26 +50,7 @@ export const getAllJoinChallenge = (title,seconfunc)=>{
       unsubscribe()
     }
 }
-export const getWeekChallenge = (challenge,func)=>{
-
-  const q = query(collection(dbService, 'weekchallenge'));
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const allChallenges = querySnapshot.docs.map((doc) => {
-          return {
-              id : doc.id,
-              ...doc.data(),
-          }
-        }).filter(value=>value.challenge===challenge)
-        if (allChallenges) {
-          func(allChallenges)
-        }
-    })
-   
-    return () => {
-      unsubscribe()
-    }
-}
-export const getChallenge = (db,paths,func,length,seconfunc,sec,thir)=>{
+export const getChallenge = (db,paths,func,length,seconfunc,sec)=>{
   const q = query(collection(dbService, db));
   //const q = query(collection(dbService, 'challenges'), where("id", "==", path), limit(1));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -86,7 +67,6 @@ export const getChallenge = (db,paths,func,length,seconfunc,sec,thir)=>{
             func(allChallenges);
             if(length==true){
               getAllJoinChallenge(allChallenges.id,seconfunc);
-              getWeekChallenge(allChallenges.id,thir)
             }else if(sec==true){
               seconfunc(allChallenges)
             }
@@ -97,4 +77,3 @@ export const getChallenge = (db,paths,func,length,seconfunc,sec,thir)=>{
       unsubscribe()
       }
 }
-

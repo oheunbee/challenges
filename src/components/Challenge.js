@@ -11,7 +11,6 @@ const Challenge =  ({userdata}) => {
     const [array, setArray]=useState([])
     const location = useLocation();
     const path = location.pathname.split('/')[2]
-    
     useEffect(() => {
         const q1 = query(collection(dbService, 'challenges'));
         const q2 = query(collection(dbService, 'challengejoin'));
