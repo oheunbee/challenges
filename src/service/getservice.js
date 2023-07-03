@@ -15,7 +15,7 @@ let result = year + '-' + month + '-' + day;
     const reference = new Date(result);
     const target = new Date(targetDate);
   
-    const timeDiff = target.getTime() - reference.getTime();
+    const timeDiff = reference.getTime()- target.getTime();
     const weeksDiff = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
     return weeksDiff;
   }

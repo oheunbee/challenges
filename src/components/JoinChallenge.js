@@ -57,9 +57,9 @@ const JoinChallenge =  ({userdata}) => {
                 return (
                   <div key={value.userId}>
                     <div>{value.userId}</div>
-                    <div>진행하기로 한거</div>
+                    <div>진행하기로 한거 : {weekdatas && weekdatas.nextcontent}</div>
                     <div>실행내용: {weekdatas && weekdatas.content}</div>
-                    <div>만족도 : </div>
+                    <div>만족도 : {weekdatas && weekdatas.percent}</div>
                     {i === nowWeeks(content.startDate) - 1 && userdata.uid === value.userId && (
                       <div>
                         {!weekdatas && weekdatas === undefined ?

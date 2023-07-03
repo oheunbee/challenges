@@ -28,12 +28,14 @@ const Writeweekchallenge = ({ userdata }) => {
   const onSubmit = async (event) => {
     const writeObj = {
       content: content.content,
+      percent: content.percent,
+      nextcontent: content.nextcontent,
       userId: userdata.uid,
       week: location.state.week,
       challenge: location.state.challenge,
     };
     await addDoc(collection(dbService, "weekchallenge"), writeObj);
-    navigate("/");
+    navigate(`/JoinChallenge/${location.state.challenge}`);
     alert("기록되었습니다");
   };
 
