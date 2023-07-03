@@ -49,9 +49,6 @@ const Challenge =  ({userdata}) => {
           unsubscribe2();
         };
       }, []);
-      console.log(array, '어레이');
-      console.log(content, 'content');
-
 
     // 삭제 - D
     const deleteUser = async(id) =>{
