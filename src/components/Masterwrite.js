@@ -16,7 +16,7 @@ const [content, setContent] = useState({
     startDate : '',
     term : '',
     image: null,
-    imageUrl: "",
+    imageUrl: '',
 })
 console.log(content,'cont')
 
@@ -36,11 +36,20 @@ const handleChange = (id, value) => {
   }
 };
 
+// const handleImageChange = (e) => {
+//   const file = e.target.files[0];
+//   setContent((prevState) => ({
+//     ...prevState,
+//     image: file,
+//   }));
+// };
+
 const handleImageChange = (e) => {
   const file = e.target.files[0];
   setContent((prevState) => ({
     ...prevState,
     image: file,
+    imageUrl: file ? file.name : '', // 파일의 이름만 imageUrl로 저장
   }));
 };
 
@@ -52,6 +61,11 @@ const handleUpload = async () => {
     setContent((prevState) => ({
       ...prevState,
       imageUrl: downloadURL,
+    }));
+  } else {
+    setContent((prevState) => ({
+      ...prevState,
+      imageUrl: '',
     }));
   }
 };
@@ -107,11 +121,10 @@ console.log(result,'??')
         style={{ display: "none" }}
       />
       <button onClick={() => imageInputRef.current.click()}>이미지 선택</button>
+      
       {content.image && <img src={URL.createObjectURL(content.image)} alt="이미지" />}
-      <br />
-      <button onClick={handleUpload}>이미지 업로드</button>
-      <br />
-    <button onClick={onSubmit} >저장</button>
+      <br></br>
+    <button onClick={()=>{onSubmit(); handleUpload();}} >저장</button>
     </>
     )
 }
