@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-import Header from "./components/Header/Header";
+import {Header,MHeader} from "./components/Header/Header";
 import Main from "./components/Main";
 import Challenge from "./components/Challenge";
 import Masterwrite from "./components/Masterwrite";
@@ -12,16 +12,20 @@ import Mychallenges from "./components/Mychallenges";
 import MyProfile from "./components/MyProfile";
 import JoinChallenge from "./components/JoinChallenge";
 import Writeweekchallenge from "./components/Writeweekchallenge";
-
+import { PC,Tablet } from "./Mediaquery";
 const Approuter =  ({userdata, isLoggedIn}) => {
-    
-  // context(state보관함)를 만들어주는 함수
-  
-
+ 
     return(
       <div className="contain">
         <BrowserRouter>
+        <PC>
         <Header userdata={userdata}/>
+        </PC>
+        <Tablet>
+        <MHeader userdata={userdata}/>
+        </Tablet>
+      
+        
             <Routes>
                 <Route path="/" element={<Main />}/>
                 <Route path="/NewWrite/:id" element={<NewWrite />} />
