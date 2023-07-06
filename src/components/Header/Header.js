@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { dbService } from "../../firebase"
 import { Link } from 'react-router-dom';
 
-function Header({userdata}) {
+function MHeader({userdata}) {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [menu, setMenu] = useState(false);
@@ -31,20 +31,8 @@ function Header({userdata}) {
       userData()
     }
   },[])
-  
-  
-  // const nickname = users&&users.map((i) => {
-  //   if (i.email.value === userdata.email.value) {
-  //     return i.displayName;
-  //   } else {
-  //     console.log('반환값 없음');
-  //     return null; // 또는 다른 기본 값을 반환
-  //   }
-  // }).filter(value => value !== null && value !== '');
-
-
   return (
-  <div className="divbox">
+  <div className="flex">
     <div  className='menubtn' onClick={e=>setMenu(!menu)}>메뉴</div>
     {menu?
     <ul className='menu' >
@@ -75,4 +63,58 @@ function Header({userdata}) {
   );
 }
 
-export default Header;
+function Header({userdata}) {
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [menu, setMenu] = useState(false);
+  const logout = () => {
+    logouts()
+    navigate("/");
+    alert('로그아웃 되었습니다');
+  };
+  useEffect(()=> {
+    const nick = query(collection(dbService,'users'));
+    const userData = onSnapshot(nick, (querySnapshot) => {
+      const allUser = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        }
+        })
+        setUsers(allUser);
+      })
+    
+    return () => {
+      userData()
+    }
+  },[])
+  return (
+  <div className="flex">
+
+    <Link to="/">DOCKTOE</Link>
+    <ul className='Dmenu flex' >
+      <li onClick={e=>setMenu(!menu)}>
+        <Link to={'/Mychallenges'}>마이챌린지</Link>
+      </li>
+      <li onClick={e=>setMenu(!menu)}>
+        <Link to={'/MyProfile'}>마이소셜링</Link>
+      </li>
+    </ul>
+    {userdata? 
+    <>
+      {/* <div>{nickname} 님 </div> */}
+      <br></br>
+      <button onClick={logout}>로그아웃</button>
+    </>
+    :
+    <a href='/Login'>로그인</a>
+    }
+    
+    
+    
+    
+    
+  </div>
+  );
+}
+export  {Header,MHeader};
