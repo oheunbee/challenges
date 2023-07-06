@@ -4,6 +4,7 @@ import {collection,query, onSnapshot,orderBy } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { calculateNewValue } from "@testing-library/user-event/dist/utils";
 import { calculateWeeksAhead } from "../service/getservice";
+import Challengebox from "./Challengebox";
 const Main =  () => {
     const [challenges, setChallenges] = useState();
     const [date, setDate] = useState([]);
@@ -30,12 +31,12 @@ const Main =  () => {
     <br></br>
      {
         challenges&&challenges.map(value =>
-
+          
         <Link
         to={`/Challenge/${value.id}`}  
         key={value.id}>
-
-        <ul  className='box-border h-1/4 w-3/4 p-4 border-4' >
+        <Challengebox value={value}/>
+        {/* <ul  className='box-border h-1/4 w-3/4 p-4 border-4 mb-8' >
           <li>
             <div>{value.title} 챌린지</div>
             <div className='flex ...'>
@@ -53,7 +54,7 @@ const Main =  () => {
             </div>
             
           </li> 
-        </ul>
+        </ul> */}
 
         </Link>
         )
