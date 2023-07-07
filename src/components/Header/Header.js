@@ -89,15 +89,16 @@ function Header({userdata}) {
     }
   },[])
   return (
-  <div className="flex">
+  <div className="flex p-4 ">
 
-    <Link to="/">DOCKTOE</Link>
+    <Link className='mr-3' to="/">DOCKTOE</Link>
     <ul className='Dmenu flex' >
-      <li onClick={e=>setMenu(!menu)}>
-        <Link to={'/Mychallenges'}>마이챌린지</Link>
+      <li className='mr-3
+      ' onClick={e=>setMenu(!menu)}>
+        <Link to={'/Mychallenges'}>우리의챌린지</Link>
       </li>
-      <li onClick={e=>setMenu(!menu)}>
-        <Link to={'/MyProfile'}>마이소셜링</Link>
+      <li className='mr-3' onClick={e=>setMenu(!menu)}>
+        <Link to={'/MyProfile'}>나의챌린지</Link>
       </li>
     </ul>
     {userdata? 

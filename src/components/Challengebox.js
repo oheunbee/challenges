@@ -5,7 +5,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import { nowWeeks } from '../service/getservice';
-
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { useEffect,useState } from "react";
+import { getAllJoinChallenge } from '../service/getservice';
+import { Link } from 'react-router-dom';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
@@ -13,7 +16,33 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
-export default function Challengebox({value}) {
+export default function Challengebox({values}) {
+  const [imageUrl, setImageUrl] = useState('');
+    const [member, setMember] =useState([])
+
+  useEffect(() => {
+    if(values.id){
+        getAllJoinChallenge(values.id,setMember)
+        }
+      
+    const storage = getStorage();
+    const storageRef = ref(storage);
+    const imageRef = ref(storageRef, values.imageUrl); // 이미지 파일의 경로를 지정하세요.
+
+    const getImageUrl = async () => {
+      try {
+        const url = await getDownloadURL(imageRef);
+        setImageUrl(url);
+      } catch (error) {
+        console.log('이미지 URL을 가져오는 중에 오류가 발생했습니다:', error);
+      }
+    };
+
+    getImageUrl();
+  }, [values.imagePath]);
+
+
+
   return (
     <Paper
       sx={{
@@ -27,39 +56,47 @@ export default function Challengebox({value}) {
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
-    >
+    >{values.id? 
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 200, height: 200 }}>
-            <Img alt="complex" src="/static/images/grid/complex.jpg" />
+            <Img alt="complex" src={imageUrl} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {value.title}
+                {values.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {value.startDate} - {value.endDate}
+                {values.startDate} - {values.endDate}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                챌린지 주차 : {value.challengeWeeks}주 / 현재주차 : {nowWeeks(value.startDate)}주차
+                챌린지 주차 : {values.challengeWeeks}주 / 현재주차 : {nowWeeks(values.startDate)}주차
               </Typography>
-              
+              <Typography variant="body2" color="text.secondary">
+                참여 명수  : {member.length}명
+              </Typography>
+              <Typography gutterBottom variant="subtitle2" component="div">
+                설명
+              </Typography>
               <Typography variant="body2" gutterBottom>
-                상세설명 {value.subtitle}
+                {values.subtitle}
               </Typography>
             </Grid>
             <Grid item>
               <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                자세히 보기
+                <Link to={`/Challenge/${values.id}`}>자세히보기</Link>
+                
               </Typography>
             </Grid>
           </Grid>
           
         </Grid>
       </Grid>
+      :''
+    }
     </Paper>
   );
 }

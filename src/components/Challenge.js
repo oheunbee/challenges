@@ -3,15 +3,17 @@ import { dbService, storageService} from "../firebase";
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
-import { calculateWeeksAhead } from "../service/getservice";
+import { calculateWeeksAhead,getAllJoinChallenge } from "../service/getservice";
 
 const Challenge =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState({});
     const [array, setArray]=useState([])
+    const [member, setMember] =useState('')
+    const [open, setOpen] =useState(false)
     const location = useLocation();
     const path = location.pathname.split('/')[2]
-    
+     console.log(content,'content')
     useEffect(() => {
         const q1 = query(collection(dbService, 'challenges'));
         const q2 = query(collection(dbService, 'challengejoin'));
@@ -28,6 +30,7 @@ const Challenge =  ({userdata}) => {
       
           if (allChallenges) {
             setContent(allChallenges);
+            getAllJoinChallenge(allChallenges.id,setMember)
           }
         });
       
@@ -68,7 +71,13 @@ const Challenge =  ({userdata}) => {
         {content ? 
         <ul>
             <li>챌린지 그룹명 : {content.title}</li>
-            <li>그룹원(명수) : {content.members}</li>
+            <li className="flex"><span>그룹원(명수) : {member.length}명</span><button onClick={()=>{setOpen(!open)}}>v</button></li>
+            {open?
+            <ul>
+              {member&&member.map(value=><div key={value.id}>{value.id}</div>)}
+            </ul>
+            :""
+          }
             <li>챌린지 주차 : {content.challengeWeeks}</li>
             <li>현재 주차 : {calculateWeeksAhead(content.startDate)} </li>
             <li>시작일 : {content.startDate}</li>
