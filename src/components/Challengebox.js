@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import { nowWeeks } from '../service/getservice';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { useEffect,useState } from "react";
 
 const Img = styled('img')({
   margin: 'auto',
@@ -14,6 +16,27 @@ const Img = styled('img')({
 });
 
 export default function Challengebox({value}) {
+  const [imageUrl, setImageUrl] = useState('');
+
+
+  useEffect(() => {
+    const storage = getStorage();
+    const storageRef = ref(storage);
+    const imageRef = ref(storageRef, value.imageUrl); // 이미지 파일의 경로를 지정하세요.
+
+    const getImageUrl = async () => {
+      try {
+        const url = await getDownloadURL(imageRef);
+        setImageUrl(url);
+      } catch (error) {
+        console.log('이미지 URL을 가져오는 중에 오류가 발생했습니다:', error);
+      }
+    };
+
+    getImageUrl();
+  }, [value.imagePath]);
+
+
   return (
     <Paper
       sx={{
@@ -31,7 +54,7 @@ export default function Challengebox({value}) {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 200, height: 200 }}>
-            <Img alt="complex" src="/static/images/grid/complex.jpg" />
+            <Img alt="complex" src={imageUrl} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
