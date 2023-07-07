@@ -31,32 +31,7 @@ const Main =  () => {
     <br></br>
      {
         challenges&&challenges.map(value =>
-          
-        <Link
-        to={`/Challenge/${value.id}`}  
-        key={value.id}>
-        <Challengebox value={value}/>
-        {/* <ul  className='box-border h-1/4 w-3/4 p-4 border-4 mb-8' >
-          <li>
-            <div>{value.title} 챌린지</div>
-            <div className='flex ...'>
-              <div className='flex-auto w-1/2 bg-sky-500/75 '>
-                <img></img>
-              </div>
-              <ul className='flex-auto w-1/2'>
-                <li>챌린지 그룹명 : {value.subtitle}</li>
-                <li>그룹원(명수) : {value.members}</li>
-                <li>챌린지 총 주차 : {value.challengeWeeks}</li>
-                <li>현재 주차 :  {calculateWeeksAhead(value.startDate)}</li>
-                <li>시작일 : {value.startDate}</li>
-                <li>종료일 : {value.endDate}</li>
-              </ul>
-            </div>
-            
-          </li> 
-        </ul> */}
-
-        </Link>
+          <Challengebox values={value}/>
         )
      }
      </>
