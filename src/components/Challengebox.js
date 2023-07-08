@@ -13,7 +13,7 @@ const Img = styled('img')({
   maxWidth: '100%',
   maxHeight: '100%',
 });
-
+console.log('올라가는거냐고');
 export default function Challengebox({value}) {
   const [imageUrl, setImageUrl] = useState('');
 
