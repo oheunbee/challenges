@@ -16,8 +16,8 @@ const Img = styled('img')({
 console.log('올라가는거냐고');
 export default function Challengebox({value}) {
   const [imageUrl, setImageUrl] = useState('');
-
-
+    const [member, setMember] =useState([])
+    console.log(imageUrl,'????')
   useEffect(() => {
     const storage = getStorage();
     const storageRef = ref(storage);
