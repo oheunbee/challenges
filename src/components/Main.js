@@ -11,30 +11,31 @@ const Main =  () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      const q = query(collection(dbService, 'challenges'), orderBy('createdAt', 'desc'))
+      const q = query(collection(dbService, 'challenges'), orderBy('createdAt', 'desc'));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const allChallenges = querySnapshot.docs.map((doc) => {
-        return {
+        const allChallenges = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }
-        })
+        }));
         setChallenges(allChallenges);
       });
+
+      return () => unsubscribe(); // 구독 해제
     }, []);
     console.log(challenges,'c')    
 
     return(
-    <>
+    <div className="wrapbox md:w-full">
     <a href="/Masterwrite">작성</a>
     <br></br>
+    
      {
         challenges&&challenges.map(value =>
           <Challengebox values={value}/>
         )
      }
-     </>
+     </div>
     )
 }
 

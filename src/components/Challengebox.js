@@ -19,7 +19,7 @@ const Img = styled('img')({
 export default function Challengebox({values}) {
   const [imageUrl, setImageUrl] = useState('');
     const [member, setMember] =useState([])
-
+    console.log(imageUrl,'????')
   useEffect(() => {
     if(values.id){
         getAllJoinChallenge(values.id,setMember)

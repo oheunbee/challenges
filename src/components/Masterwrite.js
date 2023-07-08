@@ -11,7 +11,6 @@ const navigate = useNavigate()
 const [content, setContent] = useState({
     title : '',
     subtitle : '',
-    members : 0,
     challengeWeeks : 0,
     startDate : '',
     term : '',
@@ -19,7 +18,6 @@ const [content, setContent] = useState({
     imageUrl: "",
 })
 console.log(content,'cont')
-
 
 const imageInputRef = useRef(null);
 
@@ -41,18 +39,16 @@ const handleImageChange = (e) => {
   setContent((prevState) => ({
     ...prevState,
     image: file,
+    imageUrl: `challengeImage/${file.name}`,
   }));
+
 };
 
 const handleUpload = async () => {
   if (content.image) {
     const storageRef = ref(storageService, `challengeImage/${content.image.name}`);
     await uploadBytes(storageRef, content.image);
-    const downloadURL = await getDownloadURL(storageRef);
-    setContent((prevState) => ({
-      ...prevState,
-      imageUrl: downloadURL,
-    }));
+  
   }
 };
   
@@ -68,29 +64,28 @@ var day = futureDate.getDate().toString().padStart(2, '0');
 
 // 결과 출력
 let result = year + '-' + month + '-' + day;
-console.log(result,'??')
-  const onSubmit = async (event)=> {
-    const writeObj = {
-        title : content.title,
-        subtitle : content.subtitle,
-        members : content.members,
-        challengeWeeks : content.term,
-        startDate : content.startDate,
-        endDate : result,
-        imageUrl: content.imageUrl,
-        createdAt: Date.now(),
+const onSubmit = async (event) => {
+  event.preventDefault();
+  await handleUpload();
+  const writeObj = {
+    title: content.title,
+    subtitle: content.subtitle,
+    challengeWeeks: content.term,
+    startDate: content.startDate,
+    endDate: result,
+    imageUrl: content.imageUrl, // 수정: content.imageUrl 사용
+    createdAt: Date.now(),
+  };
 
-        };
-        await addDoc(collection(dbService, "challenges"), writeObj);
-        navigate("/")
-        alert('기록되었습니다')
-}
+  await addDoc(collection(dbService, "challenges"), writeObj);
+  navigate("/");
+  alert("기록되었습니다");
+};
     return(
     <>
     <input placeholder="title" onChange={value =>{handleChange('title',value)}}/> <br></br>
     <input placeholder="subtitle" onChange={value =>{handleChange('subtitle',value)}}/> <br></br>
-    <input placeholder="members" type="number" min="1" onChange={value =>{handleChange('members',value)}}/> <br></br>
-     <span>시작일 : </span>
+    <span>시작일 : </span>
     <input placeholder="startDate" type="date" onChange={value =>{handleChange('startDate',value)}}/> <br></br>
     {/* <span>종료일 : </span>
     <input placeholder="endDate" type="date" onChange={value =>{handleChange('endDate',value)}}/> <br></br> */}
@@ -109,7 +104,7 @@ console.log(result,'??')
       <button onClick={() => imageInputRef.current.click()}>이미지 선택</button>
       {content.image && <img src={URL.createObjectURL(content.image)} alt="이미지" />}
       <br />
-      <button onClick={handleUpload}>이미지 업로드</button>
+      {/* <button onClick={handleUpload}>이미지 업로드</button> */}
       <br />
     <button onClick={onSubmit} >저장</button>
     </>
