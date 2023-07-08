@@ -15,7 +15,7 @@ let result = year + '-' + month + '-' + day;
     const reference = new Date(result);
     const target = new Date(targetDate);
   
-    const timeDiff = reference.getTime()- target.getTime();
+    const timeDiff = reference.getTime()- target.getTime() - reference.getTime();
     const weeksDiff = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
     return weeksDiff;
   }
@@ -32,7 +32,7 @@ return weeksPassed+1;
 }
 
 export const getAllJoinChallenge = (title,seconfunc)=>{
-  console.log(title,'title')
+
   const q = query(collection(dbService, 'challengejoin'));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const allChallenges = querySnapshot.docs.map((doc) => {

@@ -7,14 +7,13 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { nowWeeks } from '../service/getservice';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useEffect,useState } from "react";
-
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
   maxWidth: '100%',
   maxHeight: '100%',
 });
-
+console.log('올라가는거냐고');
 export default function Challengebox({value}) {
   const [imageUrl, setImageUrl] = useState('');
 
@@ -50,7 +49,7 @@ export default function Challengebox({value}) {
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
-    >
+    >{values.id? 
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 200, height: 200 }}>
@@ -61,28 +60,36 @@ export default function Challengebox({value}) {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {value.title}
+                {values.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {value.startDate} - {value.endDate}
+                {values.startDate} - {values.endDate}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                챌린지 주차 : {value.challengeWeeks}주 / 현재주차 : {nowWeeks(value.startDate)}주차
+                챌린지 주차 : {values.challengeWeeks}주 / 현재주차 : {nowWeeks(values.startDate)}주차
               </Typography>
-              
+              <Typography variant="body2" color="text.secondary">
+                참여 명수  : {member.length}명
+              </Typography>
+              <Typography gutterBottom variant="subtitle2" component="div">
+                설명
+              </Typography>
               <Typography variant="body2" gutterBottom>
-                상세설명 {value.subtitle}
+                {values.subtitle}
               </Typography>
             </Grid>
             <Grid item>
               <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                자세히 보기
+                <Link to={`/Challenge/${values.id}`}>자세히보기</Link>
+                
               </Typography>
             </Grid>
           </Grid>
           
         </Grid>
       </Grid>
+      :''
+    }
     </Paper>
   );
 }
