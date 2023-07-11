@@ -4,15 +4,17 @@ import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
 import { addDoc} from "firebase/firestore"
-import { getChallenge } from "../service/getservice";
+import { getChallenge, getImageUrl } from "../service/getservice";
 
 const ChallDetail =  ({userdata}) => {
     let navigate = useNavigate();
     const [content, setContent] = useState({});
     console.log(userdata,'???')
+    const [imageurl, setImageurl] = useState(null)
     const [joins, setJoins] = useState([]);
     const location = useLocation();
         const path = location.pathname.split('/')[2]
+
         useEffect(() => {
           if(!userdata) {
             alert('로그인을 해주세요');
@@ -21,7 +23,6 @@ const ChallDetail =  ({userdata}) => {
         getChallenge('challenges',path, setContent)
            
         }, []);
-
       
 const joinChallenge= async (event)=> {
   const joinObj = {

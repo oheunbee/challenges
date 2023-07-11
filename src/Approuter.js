@@ -16,10 +16,10 @@ import { PC,Tablet } from "./Mediaquery";
 const Approuter =  ({userdata, isLoggedIn}) => {
  
     return(
-      <div className="contain flex md:w-full">
+      <div className="contain flex w-full  flex-col xl:max-w-7xl xl:m-auto md:flex-row">
         <BrowserRouter>
         <PC>
-        <Header userdata={userdata}/>
+        <Header  userdata={userdata}/>
         </PC>
         <Tablet>
         <MHeader userdata={userdata}/>
@@ -31,7 +31,7 @@ const Approuter =  ({userdata, isLoggedIn}) => {
                 <Route path="/NewWrite/:id" element={<NewWrite />} />
                 <Route path="/Challenge/:id" element={<Challenge userdata={userdata} />}/>
                 <Route path="/ChallDetail/:id" element={<ChallDetail userdata={userdata} />}/>
-                <Route path="/Masterwrite" element={<Masterwrite/>}/>
+                <Route path="/Masterwrite" element={<Masterwrite userdata={userdata}/>}/>
                 <Route path="/Join" element={<Join/>}/>
                 <Route path="/Login" element={<Login/>}/>
                 <Route path="/Mychallenges" element={<Mychallenges userdata={userdata}/>}/>

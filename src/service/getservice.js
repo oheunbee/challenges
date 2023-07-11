@@ -1,5 +1,6 @@
 
 import { authService, dbService } from "../firebase";
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 export const logouts = ()=>{
@@ -98,3 +99,14 @@ export const getChallenge = (db,paths,func,length,seconfunc,sec,thir)=>{
       }
 }
 
+export const getImageUrl = async (value,func) => {
+  const storage = getStorage();
+  const storageRef = ref(storage);
+  const imageRef = ref(storageRef, value);
+try {
+  const url = await getDownloadURL(imageRef);
+  func(url);
+} catch (error) {
+  console.log('이미지 URL을 가져오는 중에 오류가 발생했습니다:', error);
+}
+};

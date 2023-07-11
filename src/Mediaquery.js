@@ -7,12 +7,12 @@ import { useMediaQuery } from "react-responsive"
 //   return <React.Fragment>{isMobile && children}</React.Fragment>
 // }
 const Tablet = ({children}) => {
-  const isTablet = useMediaQuery({maxWidth:980});
+  const isTablet = useMediaQuery({maxWidth:768});
   return <React.Fragment>{isTablet && children}</React.Fragment>
 }
 
 const PC = ({children}) => {
-  const isPc = useMediaQuery({minWidth: 981});
+  const isPc = useMediaQuery({minWidth: 769});
   return <React.Fragment>{isPc && children}</React.Fragment>
 }
 

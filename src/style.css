@@ -10,3 +10,12 @@
     top: 20px;
     padding: 10px;
 }
+.banner{
+    overflow: hidden;
+    position: relative;
+}
+.banner img{
+    object-fit: cover;
+    position: absolute;
+    top: -100px;
+}
