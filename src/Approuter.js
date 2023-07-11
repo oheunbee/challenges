@@ -16,7 +16,7 @@ import { PC,Tablet } from "./Mediaquery";
 const Approuter =  ({userdata, isLoggedIn}) => {
  
     return(
-      <div className="contain">
+      <div className="contain flex md:w-full">
         <BrowserRouter>
         <PC>
         <Header userdata={userdata}/>
