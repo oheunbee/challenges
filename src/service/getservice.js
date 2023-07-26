@@ -2,7 +2,7 @@
 import { authService, dbService } from "../firebase";
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
-import {collection,limit,query,where, onSnapshot, deleteDoc, doc} from "firebase/firestore";
+import {collection,limit,query,getDocs, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 export const logouts = ()=>{
     authService.signOut()
 }
@@ -32,25 +32,40 @@ const weeksPassed = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
 return weeksPassed+1;
 }
 
-export const getAllJoinChallenge = (title,seconfunc)=>{
 
-  const q = query(collection(dbService, 'challengejoin'));
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const allChallenges = querySnapshot.docs.map((doc) => {
-          return {
-              id : doc.id,
-              ...doc.data(),
-          }
-        }).filter(value=>value.challenge===title)
-        if (allChallenges) {
-         seconfunc(allChallenges)
-        }
-    })
-   
-    return () => {
-      unsubscribe()
-    }
-}
+
+export const getAllJoinChallenge = async (title, secondfunc) => {
+  const q1 = query(collection(dbService, 'challengejoin'));
+  const q2 = query(collection(dbService, 'users'));
+
+  try {
+    const snapshot1 = await getDocs(q1);
+    const snapshot2 = await getDocs(q2);
+
+    const allChallenges1 = snapshot1.docs.map((doc) => {
+      return {
+        ...doc.data(),
+      };
+    }).filter(value => value.challenge === title);
+
+    const allChallenges2 = snapshot2.docs.map((doc) => {
+      return {
+        ...doc.data(),
+      };
+    });
+
+    const addNickToItemList = allChallenges1.map((item) => {
+      const foundObj = allChallenges2.find((obj) => obj.email === item.email);
+      console.log(foundObj, '??????foundobj');
+      const nick = foundObj ? foundObj.displayName : null;
+      return { ...item, nick };
+    });
+console.log(addNickToItemList,'addNickToItemList????')
+    secondfunc(addNickToItemList);
+  } catch (error) {
+    console.error("Error getting documents:", error);
+  }
+};
 export const getWeekChallenge = (challenge,func)=>{
 
   const q = query(collection(dbService, 'weekchallenge'));
@@ -109,4 +124,16 @@ try {
 } catch (error) {
   console.log('이미지 URL을 가져오는 중에 오류가 발생했습니다:', error);
 }
+};
+
+// 닉네임으로 치환 
+export const nickChange = async (data,setNick) => {
+  const q = query(collection(dbService,`users`));
+  onSnapshot(q, (querySnapshot) => {
+    const allChallenges = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+      setNick(allChallenges.find(value=>value.id===data));
+  });
 };

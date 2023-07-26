@@ -2,14 +2,12 @@ import { authService, dbService} from "../firebase";
 import React, {useState} from 'react';
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection} from "firebase/firestore"
+import { doc, setDoc} from "firebase/firestore"
 /* ... */
 function Join(){
-     const navigate = useNavigate();
-
+     const navigate = useNavigate();    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [displayName, setDisplayName] =useState("");
     const onChange = (event) => {
         const {
             target: {name, value},
@@ -19,10 +17,7 @@ function Join(){
             setEmail(value);
         } else if (name === "password") {
             setPassword(value);
-        } else if (name === "displayName") {
-            setDisplayName(value);
-            console.log(displayName);
-        }
+        } 
     };
 
     // const handleChange = (id, value) => {
@@ -32,24 +27,31 @@ function Join(){
     //     }));
     //   };
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
-                createUserWithEmailAndPassword(
-                    authService,
-                    email,
-                    //displayName,
-                    password,
-                    displayName,
-                );
-                const users = {
-                    email : email,
-                    displayName : displayName,
-                    uid : "",
-                    };
-                    addDoc(collection(dbService, "users"), users);
-        navigate("/")
-        alert('회원가입이 완료되었습니다')
+        try {
+          await createUserWithEmailAndPassword(authService, email, password);
+      
+          const users = {
+            email: email,
+            displayName: '',
+            uid: '',
+          };
+      
+          const userDocRef = doc(dbService, 'users', email); // 문서 참조 생성
+          await setDoc(userDocRef, users); // 생성한 문서에 데이터 설정
+      
+          navigate("/");
+          alert('회원가입이 완료되었습니다');
+        } catch (error) {
+          console.error('회원가입 오류:', error);
+          // 오류 처리
         }
+      };
+     
+      
+      
+      
    
     return (
         <div>
@@ -70,14 +72,14 @@ function Join(){
                 value={password}
                 onChange={onChange}
             />
-            <input
+            {/* <input
                 name={"displayName"}
                 type={"displayName"}
                 placeholder={"displayName"}
                 required
                 value={displayName}
                 onChange={onChange}
-            />
+            /> */}
             <br></br>
             <input type={"submit"} value="회원가입" />
         </form>

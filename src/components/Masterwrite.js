@@ -17,6 +17,7 @@ const [content, setContent] = useState({
     term : '',
     image: null,
     imageUrl: "",
+    email:''
 })
 console.log(content,'cont')
 
@@ -79,6 +80,7 @@ const onSubmit = async (event) => {
     endDate: result,
     imageUrl: content.imageUrl, // 수정: content.imageUrl 사용
     createdAt: Date.now(),
+    email:userdata&&userdata.email,
   };
 
   await addDoc(collection(dbService, "challenges"), writeObj);

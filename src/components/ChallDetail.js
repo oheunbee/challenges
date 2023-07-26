@@ -28,6 +28,7 @@ const joinChallenge= async (event)=> {
   const joinObj = {
       challenge : path,
       userId : userdata.uid,
+      email : userdata.email,
       createdAt: Date.now(),
       };
       await addDoc(collection(dbService, "challengejoin"), joinObj);

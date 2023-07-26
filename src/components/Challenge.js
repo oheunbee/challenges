@@ -3,7 +3,7 @@ import { dbService} from "../firebase";
 import {collection,query, onSnapshot, deleteDoc, doc} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom"
-import { nowWeeks,getAllJoinChallenge,getImageUrl } from "../service/getservice";
+import { nowWeeks,getAllJoinChallenge,getImageUrl, nickChange } from "../service/getservice";
 
 const Challenge =  ({userdata}) => {
     let navigate = useNavigate();
@@ -11,11 +11,12 @@ const Challenge =  ({userdata}) => {
     const [array, setArray]=useState([])
     const [imageurl, setImageurl] = useState(null)
     const [member, setMember] =useState('')
+  console.log(member,'???memger')
+    const [nick, setNick] = useState('')
     const [open, setOpen] =useState(false)
     const location = useLocation();
     const path = location.pathname.split('/')[2]
-     console.log(content,'content')
-    useEffect(() => {
+   useEffect(() => {
         const q1 = query(collection(dbService, 'challenges'));
         const q2 = query(collection(dbService, 'challengejoin'));
       
@@ -30,11 +31,15 @@ const Challenge =  ({userdata}) => {
           });
       
           if (allChallenges) {
+            console.log(allChallenges,'all')
             setContent(allChallenges);
             getAllJoinChallenge(allChallenges.id,setMember)
             getImageUrl(allChallenges.imageUrl,setImageurl)
+
+            nickChange(userdata.email,setNick)
           }
         });
+        console.log(nick,'nick')
       
         const unsubscribe2 = onSnapshot(q2, (querySnapshot) => {
           const allChallenges = querySnapshot.docs.map((doc) => {
@@ -54,6 +59,7 @@ const Challenge =  ({userdata}) => {
           unsubscribe1();
           unsubscribe2();
         };
+        
       }, []);
     // 삭제 - D
     const deleteUser = async(id) =>{
@@ -76,7 +82,7 @@ const Challenge =  ({userdata}) => {
           </div>
           <div className="banner_b">
             <div className="banner_t font-bold text-xl">{content.title}</div>
-            <div className="text-xs text-zinc-700 mb-5">호스트 {content.userid}</div>
+            <div className="text-xs text-zinc-700 mb-5">{(content.userId)}</div>
             <div className="text-base text-zinc-700">{content.subtitle}</div>
             <div className="flex">
               <div className="text-sm text-zinc-700 mr-3">그룹원(명수) : {member.length+1}명</div>
@@ -106,7 +112,7 @@ const Challenge =  ({userdata}) => {
             <ul  className="mt-10">
               <li className="font-bold text-xl">참여중인 명단</li>
               <li>{content.userid}</li>
-              {member&&member.map(value=><li key={value.id}>{value.id}</li>)}
+              {member&&member.map(value=><li key={value.id}>{value.nick}({value.email})</li>)}
             </ul>
             </li>
             <button onClick={()=>{
